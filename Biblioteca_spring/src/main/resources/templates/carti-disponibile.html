@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Biblioteca - Cărți Disponibile</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="/">Biblioteca</a>
+            <div class="navbar-nav">
+                <a class="nav-link" href="/carti">Toate Cărțile</a>
+                <a class="nav-link" href="/carti/disponibile">Cărți Disponibile</a>
+                <a class="nav-link" href="/carti/adauga">Adaugă Carte</a>
+                <a class="nav-link" href="/imprumut">Împrumută Carte</a>
+                <a class="nav-link" href="/cititori/adauga">Adaugă Cititor</a>
+                <a class="nav-link active" href="/cititori">Cititori</a>
+            </div>
+        </div>
+    </nav>
+    
+    <div class="container mt-4">
+        <h2>Cărți Disponibile</h2>
+        
+        <!-- Mesaj de alertă dacă nu există cărți disponibile -->
+        <div th:if="${#lists.isEmpty(carti)}" class="alert alert-info">
+            Nu există cărți disponibile în acest moment.
+        </div>
+        
+        <!-- Tabel cu cărțile disponibile -->
+        <table th:if="${not #lists.isEmpty(carti)}" class="table table-striped">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Titlu</th>
+                    <th>Autor</th>
+                    <th>Acțiuni</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="carte : ${carti}">
+                    <td th:text="${carte.id}"></td>
+                    <td th:text="${carte.titlu}"></td>
+                    <td th:text="${carte.author}"></td>
+                    <td>
+                        <a th:href="@{/imprumut(carteId=${carte.id})}" 
+                           class="btn btn-primary btn-sm">Împrumută</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
